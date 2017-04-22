@@ -9,7 +9,7 @@ import org.kohsuke.stapler.StaplerRequest;
 /**
  * Created by sunjoo on 21/04/2017.
  */
-@Extension
+//@Extension
 public class SunjooPostBuilderDescriptor extends BuildWrapperDescriptor {
     private String name;
     private String email;
