@@ -36,8 +36,8 @@ import org.kohsuke.stapler.StaplerRequest;
  */
 public class TextParameterDefinition extends StringParameterDefinition {
     @DataBoundConstructor
-    public TextParameterDefinition(String name, String defaultValue, String description) {
-        super(name, defaultValue, description);
+    public TextParameterDefinition(String name){
+        super(name, "", "");
     }
 
     @Extension
@@ -51,13 +51,13 @@ public class TextParameterDefinition extends StringParameterDefinition {
     @Override
     public ParameterValue createValue(StaplerRequest req, JSONObject jo) {
         //For request
-        StringParameterValue value = req.bindJSON(StringParameterValue.class, jo);
+        TextParameterValue value = req.bindJSON(TextParameterValue.class, jo.accumulate("description", ""));
         value.setDescription("");
         return value;
     }
 
     @Override
     public ParameterValue createValue(String value) {
-        return new StringParameterValue(getName(), value, "");
+        return new TextParameterValue(getName(), value, "");
     }
 }
