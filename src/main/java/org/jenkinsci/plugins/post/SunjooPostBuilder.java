@@ -35,13 +35,19 @@ public class SunjooPostBuilder extends BuildWrapper{
 //                return super.tearDown(build, listener);
                 return runTearDown(build, listener);
             }
+
         };
     }
 
+    @Override
+    public void  preCheckout(AbstractBuild build, Launcher launcher, BuildListener listener) throws IOException, InterruptedException{
+        listener.getLogger().println("Pre checkout: " + getDescriptor().getEmail());
+    }
+
     private boolean runTearDown(final AbstractBuild build, final BuildListener listener) {
-        System.out.println("Name: " + name);
-        System.out.println("Email: " + email);
-        System.out.println("Build: " + build.getHudsonVersion());
+        listener.getLogger().println("Name: " + name);
+        listener.getLogger().println("Email: " + email);
+        listener.getLogger().println("Build: " + build.getHudsonVersion());
         return true;
     }
 

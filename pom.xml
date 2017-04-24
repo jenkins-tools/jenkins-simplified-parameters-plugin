@@ -26,8 +26,8 @@
     -->
   </properties>
 
-  <name>Plugins Examples for new user</name>
-  <description>Plugin Examples</description>
+  <name>LGE TV Lab Parameter Plugins</name>
+  <description>LGE TV Lab</description>
   <url>https://wiki.jenkins-ci.org/display/JENKINS/Sunjoo+Plugin</url>
 
   <!-- The default licence for Jenkins OSS Plugins is MIT. Substitute for the applicable one if needed. -->

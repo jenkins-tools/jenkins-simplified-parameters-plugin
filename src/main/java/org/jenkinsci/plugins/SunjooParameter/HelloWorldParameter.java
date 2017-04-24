@@ -41,8 +41,8 @@ public class HelloWorldParameter extends SimpleParameterDefinition {
 
     @Override
     public ParameterDefinition copyWithDefaultValue(ParameterValue defaultValue) {
-        if (defaultValue instanceof StringParameterValue) {
-            StringParameterValue value = (StringParameterValue) defaultValue;
+        if (defaultValue instanceof TextParameterValue) {
+            TextParameterValue value = (TextParameterValue) defaultValue;
             return new HelloWorldParameter(getName(), value.value, getDescription());
         } else {
             return this;
@@ -69,8 +69,8 @@ public class HelloWorldParameter extends SimpleParameterDefinition {
     }
 
     @Override
-    public StringParameterValue getDefaultParameterValue() {
-        StringParameterValue v = new StringParameterValue(getName(), defaultValue, getDescription());
+    public TextParameterValue getDefaultParameterValue() {
+        TextParameterValue v = new TextParameterValue(getName(), defaultValue, getDescription());
         return v;
     }
 
@@ -89,12 +89,12 @@ public class HelloWorldParameter extends SimpleParameterDefinition {
 
     @Override
     public ParameterValue createValue(StaplerRequest req, JSONObject jo) {
-        StringParameterValue value = req.bindJSON(StringParameterValue.class, jo);
+        TextParameterValue value = req.bindJSON(TextParameterValue.class, jo);
         value.setDescription(getDescription());
         return value;
     }
 
     public ParameterValue createValue(String value) {
-        return new StringParameterValue(getName(), value, getDescription());
+        return new TextParameterValue(getName(), value, getDescription());
     }
 }
