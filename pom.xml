@@ -11,7 +11,7 @@
   </parent>
   <groupId>org.jenkins-ci.plugins</groupId>
   <artifactId>Jenkins-plugins-samples</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <version>0.1</version>
   <packaging>hpi</packaging>
 
   <properties>
@@ -26,8 +26,8 @@
     -->
   </properties>
 
-  <name>LGE TV Lab Parameter Plugins</name>
-  <description>LGE TV Lab</description>
+  <name>Simplified Jenkins Plugins</name>
+  <description>Simplified Jenkins Plugins</description>
   <url>https://wiki.jenkins-ci.org/display/JENKINS/Sunjoo+Plugin</url>
 
   <!-- The default licence for Jenkins OSS Plugins is MIT. Substitute for the applicable one if needed. -->
