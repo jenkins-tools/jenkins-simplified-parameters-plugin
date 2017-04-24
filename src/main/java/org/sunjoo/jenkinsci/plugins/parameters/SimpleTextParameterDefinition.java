@@ -1,4 +1,4 @@
-package org.jenkinsci.plugins.case1;/*
+package org.sunjoo.jenkinsci.plugins.parameters;/*
  * The MIT License
  * 
  * Copyright (c) 2004-2009, Sun Microsystems, Inc., Kohsuke Kawaguchi, Luca Domenico Milanesio, Seiji Sogabe, Tom Huybrechts
@@ -34,9 +34,9 @@ import org.kohsuke.stapler.StaplerRequest;
 /**
  * {@link StringParameterDefinition} that uses textarea, instead of text box.
  */
-public class TextParameterDefinition extends StringParameterDefinition {
+public class SimpleTextParameterDefinition extends StringParameterDefinition {
     @DataBoundConstructor
-    public TextParameterDefinition(String name){
+    public SimpleTextParameterDefinition(String name){
         super(name, "", "");
     }
 
