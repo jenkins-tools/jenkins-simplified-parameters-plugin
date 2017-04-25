@@ -6,20 +6,20 @@
          xmlns:t="/lib/hudson" xmlns:f="/lib/form">
     <link href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.css" rel="stylesheet"/>
     <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.full.js"></script>
-    <div name="parameter">
         <f:entry title="${h.capitalize(it.name)}" description="${it.formattedDescription}">
+            <div name="parameter">
             <input type="hidden" name="name" value="${it.name}"/>
+            <f:textarea name="value" value="${it.defaultValue}" />
             <!--
-            <f:textbox name="value" value="${it.defaultValue}" />
-            -->
             <select name="value">
                 <j:forEach var="value" items="${it.choices}">
                     <f:option>${value}</f:option>
                 </j:forEach>
             </select>
+            -->
+            </div>
         </f:entry>
         ${h.getCurrentTime().toString()}
-    </div>
     <script type="text/javascript">
         (function ($) {
             $(function () {

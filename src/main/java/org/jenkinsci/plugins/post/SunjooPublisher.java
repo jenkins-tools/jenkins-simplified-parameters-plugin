@@ -4,11 +4,8 @@ import hudson.Launcher;
 import hudson.Extension;
 import hudson.FilePath;
 import hudson.model.*;
-import hudson.tasks.BuildStepMonitor;
-import hudson.tasks.Publisher;
+import hudson.tasks.*;
 import hudson.util.FormValidation;
-import hudson.tasks.Builder;
-import hudson.tasks.BuildStepDescriptor;
 import jenkins.tasks.SimpleBuildStep;
 import net.sf.json.JSONObject;
 import org.kohsuke.stapler.DataBoundConstructor;
@@ -34,15 +31,17 @@ import java.io.IOException;
  *
  * @author Kohsuke Kawaguchi
  */
-public class SunjooPublisher extends Publisher implements SimpleBuildStep {
+public class SunjooPublisher extends Builder implements SimpleBuildStep {
     private final String name;
     private final String age;
+    private final String config;
 
     // Fields in config.jelly must match the parameter names in the "DataBoundConstructor"
     @DataBoundConstructor
-    public SunjooPublisher(String name, String age) {
+    public SunjooPublisher(String name, String age, String config) {
         this.name = name;
         this.age = age;
+        this.config = config;
     }
 
     /**
@@ -55,7 +54,9 @@ public class SunjooPublisher extends Publisher implements SimpleBuildStep {
     public String getAge() {
         return age;
     }
-
+    public String getConfig() {
+        return config;
+    }
 
     @Override
     public boolean prebuild(Build build, BuildListener listener) {
@@ -98,7 +99,7 @@ public class SunjooPublisher extends Publisher implements SimpleBuildStep {
      * for the actual HTML fragment for the configuration screen.
      */
     @Extension // This indicates to Jenkins that this is an implementation of an extension point.
-    public static final class DescriptorImpl extends BuildStepDescriptor<Publisher> {
+    public static final class DescriptorImpl extends BuildStepDescriptor<Builder> {
         /**
          * To persist global configuration information,
          * simply store it in a field and call save().

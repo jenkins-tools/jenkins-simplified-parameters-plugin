@@ -19,11 +19,17 @@ public class SunjooPostBuilderDescriptor extends BuildWrapperDescriptor {
         load();
     }
 
-    public boolean configure(final StaplerRequest request, final JSONObject formData) {
-        request.bindJSON(this, formData);
-        save();
-        return true;
-    }
+    @Override
+        public boolean configure(StaplerRequest req, JSONObject formData) throws FormException {
+            // To persist global configuration information,
+            // set that to properties and call save().
+            name = formData.getString("name");
+            email = formData.getString("email");
+            // ^Can also use req.bindJSON(this, formData);
+            //  (easier when there are many fields; need set* methods for this, like setUseFrench)
+            save();
+            return super.configure(req,formData);
+        }
 
     @Override
     public String getDisplayName() {
@@ -33,5 +39,12 @@ public class SunjooPostBuilderDescriptor extends BuildWrapperDescriptor {
     @Override
     public boolean isApplicable(AbstractProject<?, ?> abstractProject) {
         return true;
+    }
+
+    public String getName(){
+        return name;
+    }
+    public String getEmail(){
+        return email;
     }
 }

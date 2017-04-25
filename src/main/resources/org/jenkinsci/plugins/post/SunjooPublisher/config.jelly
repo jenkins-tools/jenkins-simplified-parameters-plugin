@@ -16,4 +16,10 @@
   <f:entry title="Age" field="age">
     <f:textbox />
   </f:entry>
+  <f:entry title="Config" field="config">
+    <!--
+    <f:textarea codemirror-mode="${app.markupFormatter.codeMirrorMode}" codemirror-config="${app.markupFormatter.codeMirrorConfig}" previewEndpoint="/markupFormatter/previewDescription" />
+    -->
+    <f:textarea codemirror-config="${app.markupFormatter.codeMirrorConfig}" />
+  </f:entry>
 </j:jelly>
