@@ -1,1 +1,1 @@
-# jenkins-plugins-examples
+# Jenkins simplified parameters
