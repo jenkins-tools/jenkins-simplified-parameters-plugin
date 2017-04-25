@@ -13,8 +13,10 @@ import org.kohsuke.stapler.StaplerRequest;
 import org.kohsuke.stapler.QueryParameter;
 
 import javax.servlet.ServletException;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
-
 /**
  * Sample {@link Builder}.
  * <p>
@@ -31,7 +33,7 @@ import java.io.IOException;
  *
  * @author Kohsuke Kawaguchi
  */
-public class SunjooPublisher extends Builder implements SimpleBuildStep {
+public class SunjooPublisher extends Publisher implements SimpleBuildStep {
     private final String name;
     private final String age;
     private final String config;
@@ -61,21 +63,49 @@ public class SunjooPublisher extends Builder implements SimpleBuildStep {
     @Override
     public boolean prebuild(Build build, BuildListener listener) {
         System.out.println("Test: prebuilt");
+        listener.getLogger().println(build.getResult());
         return true;
     }
 
     @Override
     public void perform(Run<?, ?> build, FilePath workspace, Launcher launcher, TaskListener listener) throws InterruptedException, IOException{
-        // This is where you 'build' the project.
-        // Since this is a dummy, we just say 'hello world' and call that a build.
-
-        // This also shows how you can consult the global configuration of the builder
         if (getDescriptor().getUseFrench())
             listener.getLogger().println("Bonjour, " + name + "!");
         else
             listener.getLogger().println("Hello, " + name + "!");
         listener.getLogger().println(workspace.getName());
-        listener.getLogger().println(build.getEnvironment().toString());
+        Result result = build.getResult();
+        listener.getLogger().println(result);
+        File r = build.getLogFile();
+        BufferedReader br = new BufferedReader(new FileReader(r.getAbsolutePath()));
+        try {
+            StringBuilder sb = new StringBuilder();
+            String line = br.readLine();
+            while (line != null) {
+                listener.getLogger().println(line);
+                String[] lines = line.split(" ");
+                if (lines[0].equals("Summary:") && lines[lines.length - 1].equals("failed:") && lines[lines.length - 2].equals("task") ){
+                    sb.append(line + "\n");
+                    line = br.readLine();
+                    lines = line.split(" ");
+                    while(!lines[0].equals("Summary:"))
+                    {
+                        sb.append(line + "\n");
+                        line = br.readLine();
+                        listener.getLogger().println(line);
+                        lines = line.split(" ");
+                    }
+                    break;
+                }
+                line = br.readLine();
+            }
+            String everything = sb.toString();
+            build.setDescription("\n" + build.getDescription() + "\n" + everything);
+        } catch(Exception e){
+            build.setDescription("\n" + "ERROR: Can't find failed bb components");
+        }finally {
+            br.close();
+        }
     }
 
     public BuildStepMonitor getRequiredMonitorService() {
@@ -99,7 +129,7 @@ public class SunjooPublisher extends Builder implements SimpleBuildStep {
      * for the actual HTML fragment for the configuration screen.
      */
     @Extension // This indicates to Jenkins that this is an implementation of an extension point.
-    public static final class DescriptorImpl extends BuildStepDescriptor<Builder> {
+    public static final class DescriptorImpl extends BuildStepDescriptor<Publisher> {
         /**
          * To persist global configuration information,
          * simply store it in a field and call save().
